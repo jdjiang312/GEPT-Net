@@ -7,9 +7,14 @@ Jundi Jiang</a><sup>1</sup>, Yueqian Shen</a><sup>1</sup>, Jinhu Wang</a><sup>2<
 
 ![teaser](./doc/GEPT-Net.png)
 
+<div align="left">
 
-## Notes
-
+# Notes 	
+<div align="left">
+  
 We adapt the codebase of [Pointcept](https://github.com/Pointcept/Pointcept) which  is a powerful and flexible codebase for point cloud perception research.
+
+## Installation
+Please follow the [Installation](https://github.com/Pointcept/Pointcept/tree/main#installation) to build your conda environment, or you can refer to [requirements](./requirements.txt).
 
 ## Installation
