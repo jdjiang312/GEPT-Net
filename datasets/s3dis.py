@@ -62,49 +62,6 @@ class S3DISDataset(Dataset):
             raise NotImplementedError
         return data_list
 
-    # def get_data(self, idx):
-    #     data_path = self.data_list[idx % len(self.data_list)]
-    #     if not self.cache:
-    #         data = torch.load(data_path)
-    #     else:
-    #         data_name = data_path.replace(os.path.dirname(self.data_root), "").split(
-    #             "."
-    #         )[0]
-    #         cache_name = "pointcept" + data_name.replace(os.path.sep, "-")
-    #         data = shared_dict(cache_name)
-    #     name = (
-    #         os.path.basename(self.data_list[idx % len(self.data_list)])
-    #         .split("_")[0]
-    #         .replace("R", " r")
-    #     )
-    #     coord = data["coord"]
-    #     strength = data["strength"]
-    #     room_FPFH1 = data["room_FPFH1"]
-    #     room_FPFH2 = data["room_FPFH2"]
-    #     room_FPFH3 = data["room_FPFH3"]
-    #     scene_id = data_path
-    #     if "semantic_gt" in data.keys():
-    #         segment = data["semantic_gt"].reshape([-1])
-    #     else:
-    #         segment = np.ones(coord.shape[0]) * -1
-    #     if "instance_gt" in data.keys():
-    #         instance = data["instance_gt"].reshape([-1])
-    #     else:
-    #         instance = np.ones(coord.shape[0]) * -1
-    #     data_dict = dict(
-    #         name=name,
-    #         coord=coord,
-    #         strength=strength,
-    #         room_FPFH1=room_FPFH1,
-    #         room_FPFH2=room_FPFH2,
-    #         room_FPFH3=room_FPFH3,
-    #         segment=segment,
-    #         instance=instance,
-    #         scene_id=scene_id,
-    #     )
-    #     # if "normal" in data.keys():
-    #     #     data_dict["normal"] = data["normal"]
-    #     return data_dict
     def get_data(self, idx):
         data_path = self.data_list[idx % len(self.data_list)]
         if not self.cache:
@@ -117,9 +74,9 @@ class S3DISDataset(Dataset):
         name = os.path.basename(self.data_list[idx % len(self.data_list)]).split("_")[0].replace("R", " r")
         coord = data["coord"]
         strength = data["strength"]
-        # room_FPFH1 = data["room_FPFH1"]
-        # room_FPFH2 = data["room_FPFH2"]
-        # room_FPFH3 = data["room_FPFH3"]
+        fpfh1 = data["fpfh1"]
+        fpfh2 = data["fpfh2"]
+        fpfh3 = data["fpfh3"]
         scene_id = data_path
 
         if "semantic_gt" in data.keys():
@@ -136,16 +93,13 @@ class S3DISDataset(Dataset):
             name=name,
             coord=coord,
             strength=strength,
-            # room_FPFH1=room_FPFH1,
-            # room_FPFH2=room_FPFH2,
-            # room_FPFH3=room_FPFH3,
-            segment=segment,  # Ensure segment key is added
+            fpfh1=fpfh1,
+            fpfh2=fpfh2,
+            fpfh3=fpfh3,
+            segment=segment,  
             instance=instance,
             scene_id=scene_id,
         )
-
-        # Debugging statement
-        # print(f"Data keys after loading: {data_dict.keys()}")
 
         return data_dict
 
@@ -158,31 +112,6 @@ class S3DISDataset(Dataset):
         data_dict = self.transform(data_dict)
         return data_dict
 
-    # def prepare_test_data(self, idx):
-    #     # load data
-    #     data_dict = self.get_data(idx)
-    #     segment = data_dict.pop("segment")
-    #     data_dict = self.transform(data_dict)
-    #     data_dict_list = []
-    #     for aug in self.aug_transform:
-    #         data_dict_list.append(aug(deepcopy(data_dict)))
-    #
-    #     input_dict_list = []
-    #     for data in data_dict_list:
-    #         data_part_list = self.test_voxelize(data)
-    #         for data_part in data_part_list:
-    #             if self.test_crop:
-    #                 data_part = self.test_crop(data_part)
-    #             else:
-    #                 data_part = [data_part]
-    #             input_dict_list += data_part
-    #
-    #     for i in range(len(input_dict_list)):
-    #         input_dict_list[i] = self.post_transform(input_dict_list[i])
-    #     data_dict = dict(
-    #         fragment_list=input_dict_list, segment=segment, name=self.get_data_name(idx)
-    #     )
-    #     return data_dict
     def prepare_test_data(self, idx):
         # load data
         data_dict = self.get_data(idx)
