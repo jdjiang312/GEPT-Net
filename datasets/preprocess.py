@@ -41,9 +41,9 @@ def parse_room(
 
     room_coords = []
     room_strength = []
-    # room_FPFH1 = []
-    # room_FPFH2 = []
-    # room_FPFH3 = []
+    room_FPFH1 = []
+    room_FPFH2 = []
+    room_FPFH3 = []
     room_normals = []
     room_semantic_gt = []
     room_instance_gt = []
@@ -53,9 +53,9 @@ def parse_room(
         obj = np.loadtxt(object_path)
         coords = obj[:, :3]
         strength = obj[:, 3].reshape(-1, 1)  # Strength is in the fourth column
-        # FPFH1 = obj[:, 4].reshape(-1, 1)  # FPFH_1 is in the fifth column
-        # FPFH2 = obj[:, 5].reshape(-1, 1)  # FPFH_2 is in the sixth column
-        # FPFH3 = obj[:, 6].reshape(-1, 1)  # FPFH_3 is in the seventh column
+        FPFH1 = obj[:, 4].reshape(-1, 1)  # FPFH_1 is in the fifth column
+        FPFH2 = obj[:, 5].reshape(-1, 1)  # FPFH_2 is in the sixth column
+        FPFH3 = obj[:, 6].reshape(-1, 1)  # FPFH_3 is in the seventh column
 
         class_name = object_name if object_name in classes else "clutter"
         semantic_gt = np.repeat(class2label[class_name], coords.shape[0])
@@ -65,9 +65,9 @@ def parse_room(
 
         room_coords.append(coords)
         room_strength.append(strength)
-        # room_FPFH1.append(FPFH1)
-        # room_FPFH2.append(FPFH2)
-        # room_FPFH3.append(FPFH3)
+        room_FPFH1.append(FPFH1)
+        room_FPFH2.append(FPFH2)
+        room_FPFH3.append(FPFH3)
         room_semantic_gt.append(semantic_gt)
         room_instance_gt.append(instance_gt)
 
@@ -109,18 +109,18 @@ def parse_room(
             room_normals = room_normals @ np.transpose(rot_t)
 
     room_strength = np.ascontiguousarray(np.vstack(room_strength))
-    # room_FPFH1 = np.ascontiguousarray(np.vstack(room_FPFH1))
-    # room_FPFH2 = np.ascontiguousarray(np.vstack(room_FPFH2))
-    # room_FPFH3 = np.ascontiguousarray(np.vstack(room_FPFH3))
+    room_FPFH1 = np.ascontiguousarray(np.vstack(room_FPFH1))
+    room_FPFH2 = np.ascontiguousarray(np.vstack(room_FPFH2))
+    room_FPFH3 = np.ascontiguousarray(np.vstack(room_FPFH3))
     room_semantic_gt = np.ascontiguousarray(np.vstack(room_semantic_gt))
     room_instance_gt = np.ascontiguousarray(np.vstack(room_instance_gt))
 
     save_dict = dict(
         coord=room_coords,
         strength=room_strength,
-        # room_FPFH1=room_FPFH1,
-        # room_FPFH2=room_FPFH2,
-        # room_FPFH3=room_FPFH3,
+        fpfh1=room_FPFH1,
+        fpfh2=room_FPFH2,
+        fpfh3=room_FPFH3,
         semantic_gt=room_semantic_gt,
         instance_gt=room_instance_gt,
     )
@@ -233,8 +233,3 @@ def main_process():
 
 if __name__ == "__main__":
     main_process()
-
-# python pointcept/datasets/preprocessing/s3dis/preprocess_s3dis.py --dataset_root /media/jiang/Accept/##DATA/Tunnel_Data/Dataset/S3DIS_leakage/s3dis_leakage_downsampled --output_root //media/jiang/Accept/##DATA/Tunnel_Data/Dataset/S3DIS_leakage/s3dis_leakage_downsampled/Processed
-# python pointcept/datasets/preprocessing/s3dis/preprocess_s3dis.py --dataset_root /media/jiang/data_tunnel/OtherMethod_dataset --output_root /media/jiang/software/junjun
-
-
