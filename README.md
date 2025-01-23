@@ -36,7 +36,7 @@ Step5: Setting Python environment variables
 ```
 export PYTHONPATH=./
 ```
-Step5: run your projecy
+Step6: run your projecy
 ```
 python tools/train.py --config-file config.py --options save_path=results/test
 ```
