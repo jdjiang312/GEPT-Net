@@ -19,7 +19,7 @@ We recommend using [anaconda](https://www.anaconda.com/) or [miniconda](https://
 
 Please follow the [Installation](https://github.com/Pointcept/Pointcept/tree/main#installation) to build your conda environment, or you can refer to [requirements](./requirements.txt).
 
-## How to use
+## Usage
 Step 1: activate your environment
 ```
 conda activate your_env_name
@@ -40,3 +40,6 @@ Step5: run your projecy
 ```
 python tools/train.py --config-file config.py --options save_path=results/test
 ```
+
+## Citation
+If you find this work useful for your research, please cite our paper:
