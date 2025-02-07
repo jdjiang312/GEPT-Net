@@ -44,5 +44,5 @@ python tools/train.py --config-file config.py --options save_path=results/test
 ## Citation
 If you find this work useful for your research, please cite our paper:
 ```
-J Jiang, Y Shen, J Wang, et.al. GEPT-Net: An efficient geometry enhanced point transformer for shield tunnel leakage segmentation. ISPRS Journal of Photogrammetry and Remote Sensing
+Jiang J, Shen Y, Wang J, et al. GEPT-Net: An efficient geometry enhanced point transformer for shield tunnel leakage segmentation[J]. ISPRS Journal of Photogrammetry and Remote Sensing, 2025, 221: 20-43.
 ```
